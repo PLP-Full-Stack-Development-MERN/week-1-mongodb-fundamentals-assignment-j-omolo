@@ -1,0 +1,360 @@
+
+library> db.books.insertMany([
+...   { title: 'Unrull', author: 'George Natembeya', publishYear: 1960, genre: 'Dystopian', isbn: 1267890 },
+...   { title: 'The Great Gatsby', author: 'Mugambi', publishYear: 2000, genre: 'Novel', isbn: 78907812 },
+...   { title: 'Omen', author: 'Sabina Chege', publishYear: 2014, genre: 'Novel', isbn: 788897 },
+...   { title: 'Mistress', author: 'Mathews', publishYear: 1972, genre: 'Novel', isbn: 679078 },
+...   { title: 'Moby', author: 'Oscur Sudi', publishYear: 2002, genre: 'Novel', isbn: 98632 }
+... ])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('67b0e6c58441ff2ce54d7944'),
+    '1': ObjectId('67b0e6c58441ff2ce54d7945'),
+    '2': ObjectId('67b0e6c58441ff2ce54d7946'),
+    '3': ObjectId('67b0e6c58441ff2ce54d7947'),
+    '4': ObjectId('67b0e6c58441ff2ce54d7948')
+  }
+}
+library> db.books.find()
+[
+  {
+    _id: ObjectId('67b0e1098441ff2ce54d7943'),
+    tittle: 'unrull',
+    authour: 'george natembeya',
+    publishyear: 1960,
+    genre: 'dystophia',
+    isbn: 28901
+  },
+  {
+    _id: ObjectId('67b0e6c58441ff2ce54d7944'),
+    title: 'Unrull',
+    author: 'George Natembeya',
+    publishYear: 1960,
+    genre: 'Dystopian',
+    isbn: 1267890
+  },
+  {
+    _id: ObjectId('67b0e6c58441ff2ce54d7945'),
+    title: 'The Great Gatsby',
+    author: 'Mugambi',
+    publishYear: 2000,
+    genre: 'Novel',
+    isbn: 78907812
+  },
+  {
+    _id: ObjectId('67b0e6c58441ff2ce54d7946'),
+    title: 'Omen',
+    author: 'Sabina Chege',
+    publishYear: 2014,
+    genre: 'Novel',
+    isbn: 788897
+  },
+  {
+    _id: ObjectId('67b0e6c58441ff2ce54d7947'),
+    title: 'Mistress',
+    author: 'Mathews',
+    publishYear: 1972,
+    genre: 'Novel',
+    isbn: 679078
+  },
+  {
+    _id: ObjectId('67b0e6c58441ff2ce54d7948'),
+    title: 'Moby',
+    author: 'Oscur Sudi',
+    publishYear: 2002,
+    genre: 'Novel',
+    isbn: 98632}
+]
+
+
+##Retrieve Data###
+library> db.books.find()
+[
+  {
+    _id: ObjectId('67b0e1098441ff2ce54d7943'),
+    tittle: 'unrull',
+    authour: 'george natembeya',
+    publishyear: 1960,
+    genre: 'dystophia',
+    isbn: 28901
+  },
+  {
+    _id: ObjectId('67b0e6c58441ff2ce54d7944'),
+    title: 'Unrull',
+    author: 'George Natembeya',
+    publishYear: 1960,
+    genre: 'Dystopian',
+    isbn: 1267890
+  },
+  {
+    _id: ObjectId('67b0e6c58441ff2ce54d7945'),
+    title: 'The Great Gatsby',
+    author: 'Mugambi',
+    publishYear: 2000,
+    genre: 'Novel',
+    isbn: 78907812
+  },
+  {
+    _id: ObjectId('67b0e6c58441ff2ce54d7946'),
+    title: 'Omen',
+    author: 'Sabina Chege',
+    publishYear: 2014,
+    genre: 'Novel',
+    isbn: 788897
+  },
+  {
+    _id: ObjectId('67b0e6c58441ff2ce54d7947'),
+    title: 'Mistress',
+    author: 'Mathews',
+    publishYear: 1972,
+    genre: 'Novel',
+    isbn: 679078
+  },
+  {
+    _id: ObjectId('67b0e6c58441ff2ce54d7948'),
+    title: 'Moby',
+    author: 'Oscur Sudi',
+    publishYear: 2002,
+    genre: 'Novel',
+    isbn: 98632
+  }
+]
+
+
+Query books based on a specific author
+
+
+library> db.books.find({ author: "George Natembeya" })
+[
+  {
+    _id: ObjectId('67b0e6c58441ff2ce54d7944'),
+    title: 'Unrull',
+    author: 'George Natembeya',
+    publishYear: 1960,
+    genre: 'Dystopian',
+    isbn: 1267890
+  }
+]
+
+
+Find books published after the year 2000.
+
+
+library> db.books.find({ publishYear: { $gt: 2000 } })
+[
+  {
+    _id: ObjectId('67b0e6c58441ff2ce54d7946'),
+    title: 'Omen',
+    author: 'Sabina Chege',
+    publishYear: 2014,
+    genre: 'Novel',
+    isbn: 788897
+  },
+  {
+    _id: ObjectId('67b0e6c58441ff2ce54d7948'),
+    title: 'Moby',
+    author: 'Oscur Sudi',
+    publishYear: 2002,
+    genre: 'Novel',
+    isbn: 98632
+  }
+]
+
+
+
+Update the publishedYear of a specific book.
+
+
+library> db.books.updateOne(
+...   { title: "Unrull" },  // Filter: Find the book by title
+...   { $set: { publishYear: 1995 } }  // Update: Set publishYear to 1995
+... )
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+
+Add a new field called rating to all books and set a default value.
+
+
+library> db.books.updateMany(
+...   {},  // Empty filter: Applies to all documents
+...   { $set: { rating: 5 } }  // Adds a "rating" field with a default value of 5
+... )
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 6,
+  modifiedCount: 6,
+  upsertedCount: 0
+}
+
+Delete a book by its ISBN
+
+library> db.books.deleteOne({ isbn: 78907812 })
+{ acknowledged: true, deletedCount: 1 }
+
+Remove all books of a particular genre.
+
+
+
+library> db.books.deleteMany({ genre: "Novel" })
+{ acknowledged: true, deletedCount: 3 }
+    
+
+
+    Create a data model for an e-commerce platform including collections for users, orders, and products
+
+    library> db.createCollection('orders')
+{ ok: 1 }
+library> db.createCollection('products')
+{ ok: 1 }
+library> db.createCollection('users')
+{ ok: 1 }
+
+
+...     name: "John nganga",
+...     email: "john.n@gmail.com",
+...     address: " 1267 blue",
+...     createdAt: new Date()
+... });
+{
+  acknowledged: true,
+  insertedId: ObjectId('67b1a22d8441ff2ce54d794e')
+}
+library>
+
+library> db.products.insertOne({
+...     name: "Laptop",
+...     description: "15-inch laptop with 8GB RAM",
+...     price: 999.99,
+...     stock: 10,
+...     category: "Electronics",
+...     createdAt: new Date()
+... });
+{
+  acknowledged: true,
+  insertedId: ObjectId('67b1a2308441ff2ce54d794f')
+}
+library>
+
+library> db.orders.insertOne({
+...     userId: ObjectId("1000"),
+...     products: [
+...         {
+...             productId: ObjectId("0001"),
+...             quantity: 1
+...         }
+...     ],
+...     totalAmount: 999.99,
+...     status: "Pending",
+...     createdAt: new Date()
+
+
+
+
+})
+
+7. Aggregation Pipeline
+
+  { $group: { _id: "$genre", count: { $sum: 1 } } }
+...     { $group: { _id: "$genre", count: { $sum: 1 } } }
+
+
+Calculate the average published year of all books.
+
+library> db.books.aggregate([
+...     { $group: { _id: null, averageYear: { $avg: "$publishedYear" } } }
+... ])
+
+Identify the top-rated book.
+
+library> db.books.aggregate([
+...     { $group: { _id: null, averageYear: { $avg: "$publishedYear" } } }
+library> db.books.aggregate([
+...     {
+...         $group: {
+...             _id: null,
+...             averageYear: { $avg: "$publishedYear" }
+...         }
+...     }
+... ]);
+[ { _id: null, averageYear: 1881 } ]
+library>
+
+library> db.books.updateOne(
+...     { "title": "unrull" },
+...     { $set: { "rating": 5 } }
+... );
+])
+
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 0,
+  modifiedCount: 0,
+  upsertedCount: 0
+}
+
+Create an index on the author field to optimize query performance
+
+
+library>
+mugambi_1
+
+Create an index on the author field to optimize query performance
+
+
+library> db.books.find()
+[
+  {
+    _id: ObjectId('67b0e1098441ff2ce54d7943'),
+    tittle: 'unrull',
+    authour: 'george natembeya',
+    publishyear: 1960,
+    genre: 'dystophia',
+    isbn: 28901,
+    rating: 5
+  },
+  {
+    _id: ObjectId('67b0e6c58441ff2ce54d7944'),
+    title: 'Unrull',
+    author: 'George Natembeya',
+    publishYear: 1995,
+    genre: 'Dystopian',
+    isbn: 1267890,
+    rating: 5
+  },
+  {
+    _id: ObjectId('67b16e718441ff2ce54d794a'),
+    title: '1984',
+    author: 'George Orwell',
+    publishedYear: 1949,
+    genre: 'Dystopian',
+    ISBN: '978-0451524935'
+  },
+  {
+    _id: ObjectId('67b16e718441ff2ce54d794d'),
+    title: 'Pride and Prejudice',
+    author: 'Jane Austen',
+    publishedYear: 1813,
+    genre: 'Romance',
+    ISBN: '978-0486284736'
+  }
+]
+library>
+
+library>
+
+library> db.books.find({ "title": "unrull" })
+
+
+
+
+
+
